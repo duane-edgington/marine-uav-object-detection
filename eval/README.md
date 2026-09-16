@@ -2,12 +2,20 @@
 
 ## `fix_gt_shift.py`
 
-Corrects the ground-truth coordinate bug described in the top-level README. Run this first,
+This program is no longer needed.
+
+This program Corrected the ground-truth coordinate bug that was discovered by examining ground truth boxes overlaid on the original ground truth images. The bug was subsequently fixed in ai-data and is purged from all the dataset.
+
+The bug was described in the top-level README. 
+
+Before, we would run this first,
 on the raw detections JSON, before anything else.
 
 ```bash
 python fix_gt_shift.py --det-file detections_bg00.json --out detections_bg00_gtfixed.json
 ```
+
+There is no need to run it on any data described by this repo, and we may well delete it from the repo in due course.
 
 ## `extract_gt_only.py`
 
