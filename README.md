@@ -52,7 +52,8 @@ trained model + benchmark images
   detections_bgNN.json   (per-image predictions + ground truth, full-image coordinates)
         |
         v
-  eval/fix_gt_shift.py   (ground-truth coordinate correction -- see "Known data issue" below)
+  eval/fix_gt_shift.py   (ground-truth coordinate correction utility -- not needed for the data
+                           released alongside this repository, see eval/README.md)
         |
         v
   eval/nwd_report.py, eval/dotd_report.py   (primary metrics)
@@ -85,18 +86,6 @@ All evaluation scripts consume a common JSON format, produced by our tiled infer
 Coordinates are in full-image pixel space (not tile-local) — a single class ("object") is used
 throughout. `gt.confidence` is always an empty list (ground truth has no confidence value); this
 is expected and handled by every script here.
-
-## Known data issue: ground-truth coordinate correction
-
-An early version of our data export pipeline (`mbari_aidata`'s `coco_voc.py`) wrote a bounding
-box's top-left corner directly into fields expected to hold the box *center*, without adding
-half the width/height. This silently shifted every ground-truth box by half its own width and
-height. **`eval/fix_gt_shift.py` corrects this** — run it on any raw detections JSON before using
-any of the other `eval/` scripts. All results in our paper and in this repository use
-GT-corrected data; the fix has been merged upstream into `mbari_aidata`. If you are using a
-detections JSON that has already had this correction applied, running `fix_gt_shift.py` again on
-already-corrected data will silently double-shift it — check your file's `meta.gt_correction_applied`
-field, or simply confirm which stage of the pipeline your file came from, before running it.
 
 ## False-positive definition (used throughout eval/ and fp_categorization/)
 
